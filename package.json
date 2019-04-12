@@ -35,6 +35,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open",
+    "build": "webpack",
     "check-types": "tsc"
   },
   "babel": {
