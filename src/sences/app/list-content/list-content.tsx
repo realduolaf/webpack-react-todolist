@@ -19,7 +19,7 @@ export class ListContent extends React.Component<IListContentProps> {
     return (
       <div className="myy-list-content">
         <div className="myy-list-content-title">{title}</div>
-        <div className="myy-list-content-title">{input}</div>
+        <div className="myy-list-content-input">{input}</div>
         <div className="myy-list-content-group">{listItemsGroup}</div>
       </div>
     );

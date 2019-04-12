@@ -3,9 +3,17 @@
   flex: 1 1 auto;
   flex-direction: column;
 
-  .myy-list-content-title {
-    padding-left: 20px;
+  .myy-list-content-title,
+  .myy-list-content-input {
     font-size: 22px;
+  }
+
+  .myy-list-content-title {
+    margin: 10px 20px;
+  }
+
+  .myy-list-content-input {
+    margin: 0 20px;
   }
 }
 

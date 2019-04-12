@@ -20,11 +20,13 @@
       display: flex;
       align-items: center;
       padding-left: 20px;
+      font-size: 14px;
+      color: #fff;
       cursor: pointer;
     }
 
     .my-list-item-selected {
-      background-color: #6550c4;
+      background-color: #00000025;
     }
   }
 }

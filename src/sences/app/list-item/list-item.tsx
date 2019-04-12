@@ -15,16 +15,17 @@ export const ListItem: React.SFC<IListItemProps> = ({
   const { content, isFinished } = listItem;
   return (
     <div className="myy-list-item">
-      <div>
-        <input
-          type="checkbox"
-          checked={isFinished}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const newItem = { ...listItem, isFinished: e.target.checked };
-            onListItemUpdated(newItem);
-          }}
-        />
-      </div>
+      <svg
+        className="svg-icon-reset myy-list-item-icon"
+        onClick={() => {
+          const newItem = { ...listItem, isFinished: !isFinished };
+          onListItemUpdated(newItem);
+        }}
+      >
+        {isFinished && <use xlinkHref="#icon-check-box-outline" />}
+        {!isFinished && <use xlinkHref="#icon-check-box-outline-blank" />}
+      </svg>
+
       <div
         contentEditable={true}
         suppressContentEditableWarning={true}
@@ -35,7 +36,6 @@ export const ListItem: React.SFC<IListItemProps> = ({
       >
         {content}
       </div>
-      <div />
     </div>
   );
 };
