@@ -1,0 +1,15 @@
+.App {
+  display: flex;
+  height: 100%;
+}
+.myy-list-content-container {
+  flex: 1;
+}
+.myy-list-item-add {
+  align-items: stretch;
+  border: 1px solid #ddd;
+
+  &:focus {
+    outline: none;
+  }
+}

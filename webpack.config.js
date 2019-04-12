@@ -12,7 +12,11 @@ module.exports = {
     hot: true
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"],
+    alias: {
+      RootDir: path.resolve(__dirname),
+      Src: path.resolve(__dirname, "src")
+    }
   },
   module: {
     rules: [
@@ -33,7 +37,7 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: "./public/index.html",
       chunksSortMode: "none",
-      title: "管理输出"
+      title: "Myy-Todo_List"
     }),
     new webpack.HotModuleReplacementPlugin()
   ],

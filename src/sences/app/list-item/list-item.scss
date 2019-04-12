@@ -1,0 +1,9 @@
+.myy-list-item {
+  display: flex;
+  cursor: pointer;
+  padding-left: 20px;
+
+  &:hover {
+    background: #eee;
+  }
+}
