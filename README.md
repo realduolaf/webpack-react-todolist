@@ -42,3 +42,7 @@ npm start
 
 - [ ] Toggles by animation when the state of a list item changes.
 - [ ] More feature
+
+# Notice
+
+When you open the compiled file locally, the icon will not load, because of the '//' url.
