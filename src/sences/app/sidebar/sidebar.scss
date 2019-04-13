@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 300px;
+  transition: margin-left 0.4s;
 
   h1 {
     flex: 0 0 40px;
@@ -27,6 +28,24 @@
 
     .my-list-item-selected {
       background-color: #00000025;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .app-sidebar {
+    position: absolute;
+  }
+
+  .sidebar-hide {
+    .app-sidebar-hide {
+      margin-left: -300px;
+    }
+  }
+
+  .sidebar-show {
+    .app-sidebar-show {
+      margin-left: 0;
     }
   }
 }

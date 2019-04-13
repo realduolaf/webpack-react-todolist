@@ -18,7 +18,7 @@ export const Sidebar: React.SFC<ISidebarProps> = ({
   selectedListKey
 }) => {
   return (
-    <div className="app-sidebar">
+    <div className="app-sidebar app-sidebar-hide">
       <h1>To-do List</h1>
       <div className="app-sidebar-lists">
         {lists.map(item => {

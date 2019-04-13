@@ -3,6 +3,7 @@ import { IList, IListItem } from "Src/model";
 import { Sidebar } from "./sidebar";
 import { ListContent } from "./list-content";
 import { ListItemsGroup } from "./list-items-group";
+import * as classNames from "classnames";
 
 import "./app.scss";
 
@@ -46,6 +47,7 @@ interface IAppState {
   lists: { [key: string]: IList };
   listItems: { [key: string]: IListItem };
   selectedListKey: string;
+  sidebarState: boolean;
 }
 
 export class App extends React.Component<{}, IAppState> {
@@ -55,17 +57,31 @@ export class App extends React.Component<{}, IAppState> {
     this.state = {
       lists: mockLists,
       listItems: mockListItems,
-      selectedListKey: mockLists[1].key
+      selectedListKey: mockLists[1].key,
+      sidebarState: false
     };
   }
 
   render() {
-    const { selectedListKey, lists } = this.state;
+    const { selectedListKey, lists, sidebarState } = this.state;
 
     const currentList = lists[selectedListKey];
 
+    const appClassName = classNames(
+      "App",
+      { "sidebar-show": sidebarState },
+      { "sidebar-hide": !sidebarState }
+    );
+
     return (
-      <div className="App">
+      <div
+        className={appClassName}
+        onClick={() => {
+          if (sidebarState) {
+            this.setState({ sidebarState: !sidebarState });
+          }
+        }}
+      >
         <Sidebar
           isOpen={true} // TODO  可伸缩
           lists={Object.values(mockLists)}
@@ -75,6 +91,16 @@ export class App extends React.Component<{}, IAppState> {
         <div className="myy-list-content-container">
           <ListContent>
             {{
+              menuBtn: (
+                <svg
+                  onClick={() => {
+                    this.setState({ sidebarState: !sidebarState });
+                  }}
+                  className="svg-icon-reset"
+                >
+                  <use xlinkHref="#icon-menu1" />
+                </svg>
+              ),
               title: <h4>{currentList.title}</h4>,
               input: (
                 <div
