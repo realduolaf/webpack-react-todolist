@@ -68,7 +68,7 @@ export class App extends React.Component<{}, IAppState> {
     const currentList = lists[selectedListKey];
 
     const appClassName = classNames(
-      "App",
+      "myy-app",
       { "sidebar-show": sidebarState },
       { "sidebar-hide": !sidebarState }
     );
@@ -88,7 +88,7 @@ export class App extends React.Component<{}, IAppState> {
           onListSelectedChanged={this.onListSelectedChanged}
           selectedListKey={selectedListKey}
         />
-        <div className="myy-list-content-container">
+        <div className="myy-app-list-detail-container">
           <ListContent>
             {{
               menuBtn: (

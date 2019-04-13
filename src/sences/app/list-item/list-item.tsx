@@ -1,5 +1,6 @@
 import * as React from "react";
 import { IListItem } from "Src/model";
+import * as classNames from "classnames";
 
 import "./list-item.scss";
 
@@ -13,8 +14,12 @@ export const ListItem: React.SFC<IListItemProps> = ({
   onListItemUpdated
 }) => {
   const { content, isFinished } = listItem;
+
+  const classes = classNames("myy-list-item", {
+    "myy-list-item-checked": isFinished
+  });
   return (
-    <div className="myy-list-item">
+    <div className={classes}>
       <svg
         className="svg-icon-reset myy-list-item-icon"
         onClick={() => {
@@ -27,6 +32,7 @@ export const ListItem: React.SFC<IListItemProps> = ({
       </svg>
 
       <div
+        className="myy-list-item-input"
         contentEditable={true}
         suppressContentEditableWarning={true}
         onInput={(e: React.ChangeEvent<HTMLDivElement>) => {

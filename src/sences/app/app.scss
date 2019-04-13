@@ -1,31 +1,21 @@
-.App {
+.myy-app {
   display: flex;
   height: 100%;
-}
 
-.myy-list-content-container {
-  flex: 1;
-}
-
-.myy-list-item-add {
-  align-items: stretch;
-  border: 1px solid #ddd;
-  margin: 0 0 10px 0;
-  &:focus {
-    outline: none;
+  .myy-app-list-detail-container {
+    flex: 1;
   }
-}
 
-.myy-list-content-menu-btn {
-  display: none;
-  align-items: center;
-  margin-right: 20px;
-  font-size: 24px;
-  line-height: 33px;
-}
+  .myy-list-item-add {
+    height: 32px;
+    line-height: 32px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    margin: 0 20px;
 
-@media screen and (max-width: 900px) {
-  .myy-list-content-menu-btn {
-    display: initial;
+    &:focus {
+      border: 1px solid #5069c4;
+    }
   }
 }

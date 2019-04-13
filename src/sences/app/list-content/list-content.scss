@@ -7,18 +7,23 @@
     display: flex;
     margin: 10px 20px;
 
+    .myy-list-content-menu-btn {
+      display: none;
+      align-items: center;
+      margin-right: 20px;
+      font-size: 24px;
+      line-height: 33px;
+    }
+
     .myy-list-content-title {
       align-items: center;
       font-size: 22px;
     }
   }
-
-  .myy-list-content-input {
-    margin: 0 20px;
-    font-size: 22px;
-  }
 }
 
-.myy-style-padding-left {
-  padding-left: 20px;
+@media screen and (max-width: 900px) {
+  .myy-list-content-menu-btn {
+    display: initial !important;
+  }
 }

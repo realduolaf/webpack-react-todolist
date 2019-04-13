@@ -1,16 +1,37 @@
 .app-sidebar {
   height: 100%;
-  color: white;
+  color: #fff;
   background-color: #5069c4;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 300px;
+  width: 260px;
   transition: margin-left 0.4s;
 
   h1 {
     flex: 0 0 40px;
     padding-left: 20px;
+  }
+
+  .myy-sidebar-user-info {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 12px;
+
+    .myy-sidebar-avadar {
+      flex: 0 0 36px;
+    }
+
+    .myy-sidebar-username {
+      flex: 1 1 auto;
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    .myy-sidebar-mail {
+      flex: 0 0 24px;
+    }
   }
 
   .app-sidebar-lists {
@@ -21,9 +42,8 @@
       display: flex;
       align-items: center;
       padding-left: 20px;
-      font-size: 14px;
-      color: #fff;
       cursor: pointer;
+      opacity: 0.8;
     }
 
     .my-list-item-selected {
@@ -48,4 +68,13 @@
       margin-left: 0;
     }
   }
+}
+
+.temp-avatar-img {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #eee;
+  opacity: 0.8;
+  margin-right: 10px;
+  cursor: pointer;
 }

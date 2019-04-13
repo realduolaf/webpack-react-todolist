@@ -19,7 +19,17 @@ export const Sidebar: React.SFC<ISidebarProps> = ({
 }) => {
   return (
     <div className="app-sidebar app-sidebar-hide">
-      <h1>To-do List</h1>
+      <div className="myy-sidebar-user-info">
+        <div className="myy-sidebar-avatar">
+          <div className="temp-avatar-img" />
+        </div>
+        <div className="myy-sidebar-username">duolaf</div>
+        <div className="myy-sidebar-mail">
+          <svg className="svg-icon-reset">
+            <use xlinkHref="#icon-mail-default" />
+          </svg>
+        </div>
+      </div>
       <div className="app-sidebar-lists">
         {lists.map(item => {
           return (
