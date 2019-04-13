@@ -107,6 +107,7 @@ export class App extends React.Component<{}, IAppState> {
                   className="myy-list-item-add"
                   contentEditable={true}
                   suppressContentEditableWarning={true}
+                  placeholder="添加任务，回车即可保存"
                   onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                     if (e.keyCode != 13) {
                       return;
@@ -121,6 +122,7 @@ export class App extends React.Component<{}, IAppState> {
                       key: Date.now().toString()
                     };
                     this.onAddListItem(newItem);
+                    e.currentTarget.innerText = "";
                   }}
                 />
               ),
@@ -130,6 +132,7 @@ export class App extends React.Component<{}, IAppState> {
                   listItems={this.getListItemsByListID(selectedListKey).filter(
                     item => item.isFinished === false
                   )}
+                  invisibleWhenEmpty={true}
                   onListItemUpdated={this.onListItemUpdated}
                 />,
                 <ListItemsGroup
@@ -137,6 +140,7 @@ export class App extends React.Component<{}, IAppState> {
                   listItems={this.getListItemsByListID(selectedListKey).filter(
                     item => item.isFinished === true
                   )}
+                  invisibleWhenEmpty={true}
                   onListItemUpdated={this.onListItemUpdated}
                 />
               ]
@@ -175,4 +179,6 @@ export class App extends React.Component<{}, IAppState> {
       listItems: { ...listItems, [listItem.key]: listItem }
     });
   };
+
+  private clearInput = () => {};
 }
