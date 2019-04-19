@@ -1,11 +1,11 @@
-export interface IListItem {
-  isFinished: boolean;
-  content: string;
-  key: string;
+export interface ITask {
+  checked: boolean;
+  title: string;
+  id: string;
 }
 
-export interface IList {
+export interface IProject {
   title: string;
-  key: string;
-  listItemKeys: string[];
+  id: string;
+  taskKeys: string[];
 }

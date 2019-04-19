@@ -1,21 +1,21 @@
 import * as React from "react";
 import classNames from "classnames";
 
-import { IList } from "Src/model";
+import { IProject } from "Src/model";
 
 import "./sidebar.scss";
 
 export interface ISidebarProps {
   isOpen: boolean;
-  lists: IList[];
-  onListSelectedChanged: (listItem: IList) => void;
-  selectedListKey: string;
+  projects: IProject[];
+  onProjectSelectedChange: (task: IProject) => void;
+  selectProjectId: string;
 }
 
 export const Sidebar: React.SFC<ISidebarProps> = ({
-  lists,
-  onListSelectedChanged,
-  selectedListKey
+  projects,
+  onProjectSelectedChange,
+  selectProjectId
 }) => {
   return (
     <div className="app-sidebar app-sidebar-hide">
@@ -31,15 +31,15 @@ export const Sidebar: React.SFC<ISidebarProps> = ({
         </div>
       </div>
       <div className="app-sidebar-lists">
-        {lists.map(item => {
+        {projects.map(item => {
           return (
             <div
               className={classNames("my-list-item", {
-                "my-list-item-selected": selectedListKey === item.key
+                "my-list-item-selected": selectProjectId === item.id
               })}
-              key={item.key}
+              key={item.id}
               onClick={() => {
-                onListSelectedChanged(item);
+                onProjectSelectedChange(item);
               }}
             >
               {item.title}

@@ -1,20 +1,20 @@
 import * as React from "react";
 
-import "./list-content.scss";
+import "./project-container.scss";
 
-export interface IListContentProps {
+export interface IProjectContainerProps {
   children: {
     menuBtn: React.ReactNode;
     title: React.ReactNode;
     input: React.ReactNode;
-    listItemsGroup: React.ReactNode[];
+    tasksGroup: React.ReactNode[];
   };
 }
 
-export class ListContent extends React.Component<IListContentProps> {
+export class ProjectContainer extends React.Component<IProjectContainerProps> {
   render() {
     const {
-      children: { menuBtn, title, input, listItemsGroup }
+      children: { menuBtn, title, input, tasksGroup }
     } = this.props;
 
     return (
@@ -24,7 +24,7 @@ export class ListContent extends React.Component<IListContentProps> {
           <div className="myy-list-content-title">{title}</div>
         </div>
         <div className="myy-list-content-input">{input}</div>
-        <div className="myy-list-content-group">{listItemsGroup}</div>
+        <div className="myy-list-content-group">{tasksGroup}</div>
       </div>
     );
   }

@@ -1,52 +1,52 @@
 import * as React from "react";
-import { IList, IListItem } from "Src/model";
+import { IProject, ITask } from "Src/model";
 import { Sidebar } from "./sidebar";
-import { ListContent } from "./list-content";
-import { ListItemsGroup } from "./list-items-group";
+import { ProjectContainer } from "./project-container";
+import { TasksGroup } from "./tasks-group";
 import * as classNames from "classnames";
 
 import "./app.scss";
 
-const mockListItems: { [key: string]: IListItem } = {
+const mockTasks: { [key: string]: ITask } = {
   "1": {
-    content: "苹果",
-    isFinished: false,
-    key: "1"
+    title: "苹果",
+    checked: false,
+    id: "1"
   },
   "2": {
-    content: "香蕉",
-    isFinished: false,
-    key: "2"
+    title: "香蕉",
+    checked: false,
+    id: "2"
   },
   "3": {
-    content: "水",
-    isFinished: false,
-    key: "3"
+    title: "水",
+    checked: false,
+    id: "3"
   },
   "4": {
-    content: "可乐",
-    isFinished: false,
-    key: "4"
+    title: "可乐",
+    checked: false,
+    id: "4"
   }
 };
 
-const mockLists: { [key: string]: IList } = {
+const mockProjects: { [key: string]: IProject } = {
   "1": {
-    key: "1",
-    listItemKeys: ["1", "2"],
+    id: "1",
+    taskKeys: ["1", "2"],
     title: "吃什么"
   },
   "2": {
-    key: "2",
-    listItemKeys: ["3", "4"],
+    id: "2",
+    taskKeys: ["3", "4"],
     title: "喝什么"
   }
 };
 
 interface IAppState {
-  lists: { [key: string]: IList };
-  listItems: { [key: string]: IListItem };
-  selectedListKey: string;
+  projects: { [key: string]: IProject };
+  tasks: { [key: string]: ITask };
+  selectedProjectId: string;
   sidebarState: boolean;
 }
 
@@ -55,17 +55,17 @@ export class App extends React.Component<{}, IAppState> {
     super(props);
 
     this.state = {
-      lists: mockLists,
-      listItems: mockListItems,
-      selectedListKey: mockLists[1].key,
+      projects: mockProjects,
+      tasks: mockTasks,
+      selectedProjectId: mockProjects[1].id,
       sidebarState: false
     };
   }
 
   render() {
-    const { selectedListKey, lists, sidebarState } = this.state;
+    const { selectedProjectId, projects, sidebarState } = this.state;
 
-    const currentList = lists[selectedListKey];
+    const currentProject = projects[selectedProjectId];
 
     const appClassName = classNames(
       "myy-app",
@@ -83,13 +83,13 @@ export class App extends React.Component<{}, IAppState> {
         }}
       >
         <Sidebar
-          isOpen={true} // TODO  可伸缩
-          lists={Object.values(mockLists)}
-          onListSelectedChanged={this.onListSelectedChanged}
-          selectedListKey={selectedListKey}
+          isOpen={true}
+          projects={Object.values(mockProjects)}
+          onProjectSelectedChange={this.onProjectSelectedChanged}
+          selectProjectId={selectedProjectId}
         />
         <div className="myy-app-list-detail-container">
-          <ListContent>
+          <ProjectContainer>
             {{
               menuBtn: (
                 <svg
@@ -101,7 +101,7 @@ export class App extends React.Component<{}, IAppState> {
                   <use xlinkHref="#icon-menu1" />
                 </svg>
               ),
-              title: <h4>{currentList.title}</h4>,
+              title: <h4>{currentProject.title}</h4>,
               input: (
                 <div
                   className="myy-list-item-add"
@@ -116,69 +116,67 @@ export class App extends React.Component<{}, IAppState> {
                       return;
                     }
                     e.preventDefault();
-                    const newItem: IListItem = {
-                      content: e.currentTarget.innerText,
-                      isFinished: false,
-                      key: Date.now().toString()
+                    const newItem: ITask = {
+                      title: e.currentTarget.innerText,
+                      checked: false,
+                      id: Date.now().toString()
                     };
-                    this.onAddListItem(newItem);
+                    this.onAddTask(newItem);
                     e.currentTarget.innerText = "";
                   }}
                 />
               ),
-              listItemsGroup: [
-                <ListItemsGroup
+              tasksGroup: [
+                <TasksGroup
                   groupName="未完成"
-                  listItems={this.getListItemsByListID(selectedListKey).filter(
-                    item => item.isFinished === false
+                  tasks={this.getTasksByTaskID(selectedProjectId).filter(
+                    item => item.checked === false
                   )}
                   invisibleWhenEmpty={true}
-                  onListItemUpdated={this.onListItemUpdated}
+                  onTaskUpdate={this.onTaskUpdated}
                 />,
-                <ListItemsGroup
+                <TasksGroup
                   groupName="已完成"
-                  listItems={this.getListItemsByListID(selectedListKey).filter(
-                    item => item.isFinished === true
+                  tasks={this.getTasksByTaskID(selectedProjectId).filter(
+                    item => item.checked === true
                   )}
                   invisibleWhenEmpty={true}
-                  onListItemUpdated={this.onListItemUpdated}
+                  onTaskUpdate={this.onTaskUpdated}
                 />
               ]
             }}
-          </ListContent>
+          </ProjectContainer>
         </div>
       </div>
     );
   }
 
-  private onListSelectedChanged = (list: IList) => {
+  private onProjectSelectedChanged = (task: IProject) => {
     this.setState({
-      selectedListKey: list.key
+      selectedProjectId: task.id
     });
   };
 
-  private getListItemsByListID = (id: string): IListItem[] => {
-    const { lists, listItems } = this.state;
-    const itemIDs = lists[id].listItemKeys;
-    return itemIDs.map(item => listItems[item]);
+  private getTasksByTaskID = (id: string): ITask[] => {
+    const { projects, tasks } = this.state;
+    const itemIDs = projects[id].taskKeys;
+    return itemIDs.map(item => tasks[item]);
   };
 
-  private onListItemUpdated = (listItem: IListItem) => {
-    const { listItems } = this.state;
+  private onTaskUpdated = (task: ITask) => {
+    const { tasks } = this.state;
     this.setState({
-      listItems: { ...listItems, [listItem.key]: listItem }
+      tasks: { ...tasks, [task.id]: task }
     });
   };
 
-  private onAddListItem = (listItem: IListItem) => {
-    const { lists, listItems, selectedListKey } = this.state;
-    const listItemKeys = [...lists[selectedListKey].listItemKeys, listItem.key];
-    const newList = { ...lists[selectedListKey], listItemKeys };
+  private onAddTask = (task: ITask) => {
+    const { projects, tasks, selectedProjectId } = this.state;
+    const taskKeys = [...projects[selectedProjectId].taskKeys, task.id];
+    const newTask = { ...projects[selectedProjectId], taskKeys: taskKeys };
     this.setState({
-      lists: { ...lists, [selectedListKey]: newList },
-      listItems: { ...listItems, [listItem.key]: listItem }
+      projects: { ...projects, [selectedProjectId]: newTask },
+      tasks: { ...tasks, [task.id]: task }
     });
   };
-
-  private clearInput = () => {};
 }
