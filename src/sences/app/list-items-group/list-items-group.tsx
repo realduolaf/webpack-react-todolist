@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IListItem } from "Src/model";
+import { ITask } from "Src/model";
 import { ListItem } from "../list-item";
 
 import "./list-items-group.scss";
@@ -7,9 +7,9 @@ import * as classNames from "classnames";
 
 export interface IListItemsGroupProps {
   groupName: string;
-  listItems: IListItem[];
+  listItems: ITask[];
   invisibleWhenEmpty: boolean;
-  onListItemUpdated(listItem: IListItem): void;
+  onListItemUpdated(listItem: ITask): void;
 }
 
 export const ListItemsGroup: React.SFC<IListItemsGroupProps> = ({

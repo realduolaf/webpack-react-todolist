@@ -1,14 +1,14 @@
 import * as React from "react";
 import classNames from "classnames";
 
-import { IList } from "Src/model";
+import { IProject } from "Src/model";
 
 import "./sidebar.scss";
 
 export interface ISidebarProps {
   isOpen: boolean;
-  lists: IList[];
-  onListSelectedChanged: (listItem: IList) => void;
+  lists: IProject[];
+  onListSelectedChanged: (selectedListKey: string) => void;
   selectedListKey: string;
 }
 
@@ -35,11 +35,11 @@ export const Sidebar: React.SFC<ISidebarProps> = ({
           return (
             <div
               className={classNames("my-list-item", {
-                "my-list-item-selected": selectedListKey === item.key
+                "my-list-item-selected": selectedListKey === item.id
               })}
-              key={item.key}
+              key={item.id}
               onClick={() => {
-                onListSelectedChanged(item);
+                onListSelectedChanged(item.id);
               }}
             >
               {item.title}

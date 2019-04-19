@@ -1,12 +1,12 @@
 import * as React from "react";
-import { IListItem } from "Src/model";
+import { ITask } from "Src/model";
 import * as classNames from "classnames";
 
 import "./list-item.scss";
 
 export interface IListItemProps {
-  listItem: IListItem;
-  onListItemUpdated(listItem: IListItem): void;
+  listItem: ITask;
+  onListItemUpdated(listItem: ITask): void;
 }
 
 export const ListItem: React.SFC<IListItemProps> = ({

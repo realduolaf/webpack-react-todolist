@@ -1,184 +1,153 @@
 import * as React from "react";
-import { IList, IListItem } from "Src/model";
+import { useEffect, useState } from "react";
+import { IProject, ITask } from "Src/model";
 import { Sidebar } from "./sidebar";
 import { ListContent } from "./list-content";
 import { ListItemsGroup } from "./list-items-group";
 import * as classNames from "classnames";
+import { useFetch } from "../../services/common/use-fetch";
 
 import "./app.scss";
+import { useResource } from "Src/services/common/use-resources";
 
-const mockListItems: { [key: string]: IListItem } = {
-  "1": {
-    content: "苹果",
-    isFinished: false,
-    key: "1"
-  },
-  "2": {
-    content: "香蕉",
-    isFinished: false,
-    key: "2"
-  },
-  "3": {
-    content: "水",
-    isFinished: false,
-    key: "3"
-  },
-  "4": {
-    content: "可乐",
-    isFinished: false,
-    key: "4"
-  }
-};
-
-const mockLists: { [key: string]: IList } = {
-  "1": {
-    key: "1",
-    listItemKeys: ["1", "2"],
-    title: "吃什么"
-  },
-  "2": {
-    key: "2",
-    listItemKeys: ["3", "4"],
-    title: "喝什么"
-  }
-};
-
-interface IAppState {
-  lists: { [key: string]: IList };
-  listItems: { [key: string]: IListItem };
-  selectedListKey: string;
-  sidebarState: boolean;
+export interface INet {
+  projects: IProject[];
+  tasks: ITask[];
 }
 
-export class App extends React.Component<{}, IAppState> {
-  constructor(props: {}) {
-    super(props);
+export const App: React.SFC<{}> = () => {
+  // const { projects, tasks, isError, isLoading } = useProjectsGetAPI();
 
-    this.state = {
-      lists: mockLists,
-      listItems: mockListItems,
-      selectedListKey: mockLists[1].key,
-      sidebarState: false
-    };
-  }
+  const { data, isError, fetch, isLoading } = useFetch<INet | undefined>(
+    "http://39.106.170.218:3000/getjson/users/duolaf/lists",
+    undefined
+  );
 
-  render() {
-    const { selectedListKey, lists, sidebarState } = this.state;
+  const { dispatch } = useResource(data.projects);
+  const {} = useResource(data.tasks);
 
-    const currentList = lists[selectedListKey];
+  return (
+    <div className="myy-app">
+      {isLoading ? (
+        <div>正在加载！</div>
+      ) : (
+        <Content projects={data.projects} tasks={data.tasks} />
+      )}
+    </div>
+  );
+};
 
-    const appClassName = classNames(
-      "myy-app",
-      { "sidebar-show": sidebarState },
-      { "sidebar-hide": !sidebarState }
-    );
+const Content: React.SFC<{
+  projects: IProject[];
+  tasks: ITask[];
+}> = ({ projects, tasks }) => {
+  const [sidebarState, setSidebarState] = useState<boolean>(true);
+  const [selectedProjectID, setSelectedProjectID] = useState<string>("1");
 
-    return (
-      <div
-        className={appClassName}
-        onClick={() => {
-          if (sidebarState) {
-            this.setState({ sidebarState: !sidebarState });
-          }
-        }}
-      >
-        <Sidebar
-          isOpen={true} // TODO  可伸缩
-          lists={Object.values(mockLists)}
-          onListSelectedChanged={this.onListSelectedChanged}
-          selectedListKey={selectedListKey}
-        />
-        <div className="myy-app-list-detail-container">
-          <ListContent>
-            {{
-              menuBtn: (
-                <svg
-                  onClick={() => {
-                    this.setState({ sidebarState: !sidebarState });
-                  }}
-                  className="svg-icon-reset"
-                >
-                  <use xlinkHref="#icon-menu1" />
-                </svg>
-              ),
-              title: <h4>{currentList.title}</h4>,
-              input: (
-                <div
-                  className="myy-list-item-add"
-                  contentEditable={true}
-                  suppressContentEditableWarning={true}
-                  placeholder="添加任务，回车即可保存"
-                  onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                    if (e.keyCode != 13) {
-                      return;
-                    }
-                    if (!e.currentTarget.innerText) {
-                      return;
-                    }
-                    e.preventDefault();
-                    const newItem: IListItem = {
-                      content: e.currentTarget.innerText,
-                      isFinished: false,
-                      key: Date.now().toString()
-                    };
-                    this.onAddListItem(newItem);
-                    e.currentTarget.innerText = "";
-                  }}
-                />
-              ),
-              listItemsGroup: [
-                <ListItemsGroup
-                  groupName="未完成"
-                  listItems={this.getListItemsByListID(selectedListKey).filter(
-                    item => item.isFinished === false
-                  )}
-                  invisibleWhenEmpty={true}
-                  onListItemUpdated={this.onListItemUpdated}
-                />,
-                <ListItemsGroup
-                  groupName="已完成"
-                  listItems={this.getListItemsByListID(selectedListKey).filter(
-                    item => item.isFinished === true
-                  )}
-                  invisibleWhenEmpty={true}
-                  onListItemUpdated={this.onListItemUpdated}
-                />
-              ]
-            }}
-          </ListContent>
-        </div>
+  const currectProject: IProject = projects.find(
+    item => item.id === selectedProjectID
+  );
+
+  const appClassName = classNames(
+    "myy-app",
+    { "sidebar-show": sidebarState },
+    { "sidebar-hide": !sidebarState }
+  );
+
+  return (
+    <div
+      className={appClassName}
+      onClick={() => {
+        if (sidebarState) {
+          setSidebarState(!sidebarState);
+        }
+      }}
+    >
+      <Sidebar
+        isOpen={true}
+        lists={Object.values(projects)}
+        onListSelectedChanged={setSelectedProjectID}
+        selectedListKey={selectedProjectID}
+      />
+      <div className="myy-app-list-detail-container">
+        <ListContent>
+          {{
+            menuBtn: (
+              <svg
+                onClick={() => {
+                  setSidebarState(!sidebarState);
+                }}
+                className="svg-icon-reset"
+              >
+                <use xlinkHref="#icon-menu1" />
+              </svg>
+            ),
+            title: <h4>{currectProject.title}</h4>,
+            input: (
+              <div
+                className="myy-list-item-add"
+                contentEditable={true}
+                suppressContentEditableWarning={true}
+                placeholder="添加任务，回车即可保存"
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.keyCode != 13) {
+                    return;
+                  }
+                  if (!e.currentTarget.innerText) {
+                    return;
+                  }
+                  e.preventDefault();
+                  const newItem: ITask = {
+                    content: e.currentTarget.innerText,
+                    isFinished: false,
+                    id: Date.now().toString(),
+                    projectId: selectedProjectID
+                  };
+                  // onAddListItem(newItem);
+                  e.currentTarget.innerText = "";
+                }}
+              />
+            ),
+            listItemsGroup: [
+              <ListItemsGroup
+                groupName="未完成"
+                listItems={getListItemsByProjectID(selectedProjectID).filter(
+                  item => item.isFinished === false
+                )}
+                invisibleWhenEmpty={true}
+                onListItemUpdated={onListItemUpdated}
+              />,
+              <ListItemsGroup
+                groupName="已完成"
+                listItems={getListItemsByProjectID(selectedProjectID).filter(
+                  item => item.isFinished === true
+                )}
+                invisibleWhenEmpty={true}
+                onListItemUpdated={onListItemUpdated}
+              />
+            ]
+          }}
+        </ListContent>
       </div>
-    );
+    </div>
+  );
+
+  function getListItemsByProjectID(projectId: string): ITask[] {
+    return tasks.filter(item => item.projectId === projectId);
   }
 
-  private onListSelectedChanged = (list: IList) => {
-    this.setState({
-      selectedListKey: list.key
-    });
-  };
+  function onListItemUpdated(listItem: ITask) {
+    // const { isSuccess, data } = useTaskUpdateAPI();
+    // setListItems({ ...listItems, [listItem.key]: listItem });
+  }
 
-  private getListItemsByListID = (id: string): IListItem[] => {
-    const { lists, listItems } = this.state;
-    const itemIDs = lists[id].listItemKeys;
-    return itemIDs.map(item => listItems[item]);
-  };
-
-  private onListItemUpdated = (listItem: IListItem) => {
-    const { listItems } = this.state;
-    this.setState({
-      listItems: { ...listItems, [listItem.key]: listItem }
-    });
-  };
-
-  private onAddListItem = (listItem: IListItem) => {
-    const { lists, listItems, selectedListKey } = this.state;
-    const listItemKeys = [...lists[selectedListKey].listItemKeys, listItem.key];
-    const newList = { ...lists[selectedListKey], listItemKeys };
-    this.setState({
-      lists: { ...lists, [selectedListKey]: newList },
-      listItems: { ...listItems, [listItem.key]: listItem }
-    });
-  };
-
-  private clearInput = () => {};
-}
+  function onAddListItem(listItem: ITask) {
+    const listItemKeys = [
+      ...projects[selectedProjectID].listItemKeys
+      // listItem.key
+    ];
+    const newList = { ...projects[selectedProjectID], listItemKeys };
+    // setLists({ ...projects, [selectedListKey]: newList });
+    // setListItems({ ...tasks, [listItem.key]: listItem });
+  }
+};

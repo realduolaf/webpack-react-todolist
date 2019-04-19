@@ -1,11 +1,17 @@
-export interface IListItem {
+export interface ITask {
   isFinished: boolean;
   content: string;
-  key: string;
+  id: string;
+  projectId: string;
 }
 
-export interface IList {
+export interface IProject {
   title: string;
-  key: string;
-  listItemKeys: string[];
+  id: string;
+}
+
+export interface IUser {
+  name: string;
+  id: string;
+  email: string;
 }

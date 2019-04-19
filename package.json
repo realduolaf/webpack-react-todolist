@@ -7,7 +7,9 @@
   "author": "duolaf",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.4.3",
     "@types/classnames": "^2.2.7",
+    "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
@@ -29,6 +31,7 @@
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
+    "tslint-react-hooks": "^2.0.0",
     "typescript": "^3.3.3333",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
@@ -37,7 +40,7 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack",
-    "check-types": "tsc"
+    "check-types": "tsc --noEmit"
   },
   "babel": {
     "presets": [
