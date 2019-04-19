@@ -37,7 +37,7 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack",
-    "check-types": "tsc"
+    "check-types": "tsc --noEmit"
   },
   "babel": {
     "presets": [
